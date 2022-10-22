@@ -243,10 +243,7 @@ The results in Q3.2 is better since the accuracy is larger. Top 5 PCs have great
 
 
 ### Q3.4
-
-```{r}
-# gotta do
-```
+Classification gives better results because the accuracy of classification is higher. clustering by similarity may cause the conditions for grouping the obtained data do not satisfy our needs, while in classification we define the boundary conditions corresponding to specific categories and place the objects in classification, we define the boundary conditions for specific categories and place the objects into these categories, so that the results meet our needs better
 
 ### Q3.5
 
