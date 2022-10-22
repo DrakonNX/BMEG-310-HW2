@@ -190,14 +190,14 @@ ovarian.dataset.test <- ovarian.dataset[sample(nrow(ovarian.dataset))
 ### Q3.1
 
 ```{r}
-glm.fit <- glm(as.factor(diagnosis)~., data = ovarian.dataset.train[,c(3:32)], 
+glm.fit <- glm(as.factor(ovarian.dataset.train$diagnosis)~., data = ovarian.dataset.train[,3:32], 
                family = binomial)
 
 summary(glm.fit)
 ```
 
 ```{r}
-glm.probs <- predict(glm.fit, ovarian.dataset.test[,c(3:32)],
+glm.probs <- predict(glm.fit, ovarian.dataset.test,
                      type = "response")
 
 glm.probs[1:5]
@@ -213,11 +213,13 @@ mean(glm.pred == ovarian.dataset.test$diagnosis)
 ### Q3.2
 
 ```{r}
-ovarian.pca5 <- ovarian.pca$x[,1:5]
-ovarian.dataset.train.pc5 <- ovarian.pca5[sample(nrow(ovarian.pca5))[1:(nrow(ovarian.pca5)/2)],]
-ovarian.dataset.test.pc5 <- ovarian.pca5[sample(nrow(ovarian.pca5))[(nrow(ovarian.pca5)/2):(nrow(ovarian.pca5))],]
+ovarian.pca5 <- as.data.frame(ovarian.pca$x[,1:5])
+ovarian.pca5$diagnosis <- as.factor(ovarian.dataset$diagnosis)
 
-glm.fit.pc5 <- glm(as.factor(diagnosis) ~., data = as.data.frame(ovarian.dataset.train.pc5), family = binomial)
+ovarian.dataset.train.pca5 <- ovarian.pca5[sample(nrow(ovarian.pca5))[1:(nrow(ovarian.pca5)/2)],]
+ovarian.dataset.test.pca5 <- ovarian.pca5[sample(nrow(ovarian.pca5))[(nrow(ovarian.pca5)/2):(nrow(ovarian.pca5))],]
+
+glm.fit.pc5 <- glm(as.factor(ovarian.dataset.train.pca5$diagnosis) ~., data = as.data.frame(ovarian.dataset.train.pca5), family = binomial)
 
 summary(glm.fit.pc5)
 ```
@@ -231,8 +233,8 @@ glm.probs.pc5[1:5]
 ```{r}
 glm.pred.pc5 <- ifelse(glm.probs.pc5 > 0.5, "M", "B")
 head(as.data.frame(ovarian.dataset.test.pc5))
-table(glm.pred.pc5,ovarian.dataset.test$diagnosis)
-mean(glm.pred.pc5 == ovarian.dataset.test$diagnosis)
+table(glm.pred.pc5,ovarian.dataset.test.pca5$diagnosis)
+mean(glm.pred.pc5 == ovarian.dataset.test.pca5$diagnosis)
 ```
 
 
@@ -307,5 +309,5 @@ mean(prediction.pca == testing_dataset$diagnosis)
 # Contribution Statement
 
 Wesley Chan (75520023): did literally nothing
-Flora Deng (): 
+Flora Deng (14085211): 
 Mary Graves (): 
